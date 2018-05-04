@@ -14,12 +14,15 @@ ENV PACKAGES="\
     python-dev \
     linux-headers \
     sudo \
+    git \
+    openssh-client \
 "
 
 ENV PIP_PACKAGES="\
     virtualenv \
-    molecule \
-    ansible \
+    credstash==1.14.0 \
+    molecule==2.13.1 \
+    ansible==2.5.2 \
     docker-py \
 "
 
@@ -30,5 +33,5 @@ RUN \
     && pip install --no-cache-dir ${PIP_PACKAGES} \
     && rm -rf /root/.cache
 
+ENV ANSIBLE_FORCE_COLOR=1
 ENV SHELL /bin/bash
-
