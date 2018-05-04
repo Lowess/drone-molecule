@@ -27,7 +27,7 @@ case "${CI}" in
         drone_netrc
         ;;
     *) # local environement
-        case "${PLUGIN_COMMAND}" in
+        case "${PLUGIN_TASK}" in
             test|converge|dependency)
                 local_ssh_agent
                 ;;
@@ -42,11 +42,11 @@ esac
 SUB_COMMAND=""
 OPTIONS=""
 
-case "${PLUGIN_COMMAND}" in
+case "${PLUGIN_TASK}" in
     init)
         case "${PLUGIN_URL}" in
             *)
-                PLUGIN_COMMAND="init"
+                PLUGIN_TASK="init"
                 SUB_COMMAND="template"
                 OPTIONS=('--url' "${PLUGIN_URL}")
                 ;;
@@ -73,14 +73,14 @@ case "${PLUGIN_COMMAND}" in
         ;;
     *)
         # Show molecule usage if no commands are provided
-        if [[ -z "${PLUGIN_COMMAND}" ]]; then
+        if [[ -z "${PLUGIN_TASK}" ]]; then
             molecule
             exit 0
         else
-            echo "The command ${PLUGIN_COMMAND} is not supported (yet)."
+            echo "The command ${PLUGIN_TASK} is not supported (yet)."
             exit 1
         fi
         ;;
 esac
 
-molecule ${PLUGIN_COMMAND} ${SUB_COMMAND} ${OPTIONS[@]}
+molecule ${PLUGIN_TASK} ${SUB_COMMAND} ${OPTIONS[@]}
