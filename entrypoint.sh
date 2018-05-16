@@ -11,7 +11,7 @@ if [[ ! -z "${DRONE_NETRC_MACHINE}" ]]; then
     login ${DRONE_NETRC_USERNAME}
     password ${DRONE_NETRC_PASSWORD}
 EOF
-
+    chmod 600 /root/.netrc
 fi
 }
 
