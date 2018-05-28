@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 drone_netrc(){
     # Populate $HOME/.netrc file, so that Galaxy dependencies can be installed from
     # Bitbucket / Github private repositories
@@ -15,26 +14,13 @@ EOF
 fi
 }
 
-local_ssh_agent(){
-    # Starts the ssh-agent and add the private key to the authentication agent
-    eval $(ssh-agent -s) > /dev/null;
-    ssh-add ~/.ssh/id_rsa;
-}
-
 ### Plugin running on Drone CI/CD (http://drone.io/)
 case "${CI}" in
     drone)
         drone_netrc
         ;;
-    *) # local environement
-        case "${PLUGIN_TASK}" in
-            test|converge|dependency)
-                local_ssh_agent
-                ;;
-            *)
-                # No need to start the ssh agent
-                ;;
-        esac
+    *)
+        # TODO for other CI/CD platforms
         ;;
 esac
 
@@ -83,4 +69,4 @@ case "${PLUGIN_TASK}" in
         ;;
 esac
 
-molecule ${PLUGIN_TASK} ${SUB_COMMAND} ${OPTIONS[@]}
+molecule ${PLUGIN_TASK} ${SUB_COMMAND} ${OPTIONS[@]} ${@}

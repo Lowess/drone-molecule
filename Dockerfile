@@ -37,4 +37,5 @@ ENV ANSIBLE_FORCE_COLOR=1
 ENV SHELL /bin/bash
 
 COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+CMD []
