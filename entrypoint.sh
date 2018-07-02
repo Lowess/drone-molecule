@@ -27,7 +27,7 @@ esac
 ### Molecule Plugin
 SUB_COMMAND=""
 OPTIONS=""
-SCENARIO=('--scenario-name' "${PLUGIN_SCENARIO:-default}")
+SCENARIO=""
 
 case "${PLUGIN_TASK}" in
     init)
@@ -57,6 +57,7 @@ case "${PLUGIN_TASK}" in
         ;;
 
     check|converge|create|dependency|destroy|idempotence|lint|list|prepare|side-effect|syntax|test|verify)
+        SCENARIO=('--scenario-name' "${PLUGIN_SCENARIO:-default}")
         ;;
     *)
         # Show molecule usage if no commands are provided
