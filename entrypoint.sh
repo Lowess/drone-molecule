@@ -27,6 +27,7 @@ esac
 ### Molecule Plugin
 SUB_COMMAND=""
 OPTIONS=""
+SCENARIO=('--scenario-name' "${PLUGIN_SCENARIO:-default}")
 
 case "${PLUGIN_TASK}" in
     init)
@@ -69,4 +70,4 @@ case "${PLUGIN_TASK}" in
         ;;
 esac
 
-molecule ${PLUGIN_TASK} ${SUB_COMMAND} ${OPTIONS[@]} ${@}
+molecule ${PLUGIN_TASK} ${SCENARIO[@]} ${SUB_COMMAND} ${OPTIONS[@]} ${@}
