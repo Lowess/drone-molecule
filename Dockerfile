@@ -21,7 +21,7 @@ ENV PACKAGES="\
 ENV PIP_PACKAGES="\
     virtualenv \
     credstash==1.14.0 \
-    molecule==2.13.1 \
+    molecule==2.16 \
     ansible==2.5.2 \
     docker-py \
 "
