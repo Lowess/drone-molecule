@@ -1,6 +1,12 @@
 FROM docker:dind
 LABEL maintainer "Florian Dambrine <android.florian@gmail.com>"
 
+ARG ANSIBLE_PIP_VERSION
+ARG MOLECULE_PIP_VERSION
+
+ENV ANSIBLE_PIP_VERSION=${ANSIBLE_PIP_VERSION:-2.6.3}
+ENV MOLECULE_PIP_VERSION=${MOLECULE_PIP_VERSION:-2.17}
+
 ENV PACKAGES="\
     gcc \
     make \
@@ -21,8 +27,8 @@ ENV PACKAGES="\
 ENV PIP_PACKAGES="\
     virtualenv \
     credstash==1.14.0 \
-    molecule==2.16 \
-    ansible==2.5.2 \
+    molecule==${MOLECULE_PIP_VERSION} \
+    ansible==${ANSIBLE_PIP_VERSION} \
     docker-py \
 "
 
