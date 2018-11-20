@@ -40,6 +40,7 @@ RUN \
     apk update \
     && apk add --update --no-cache ${PACKAGES} \
     && rm -rf /var/cache/apk/* \
+    && pip install -U pip --no-cache-dir \
     && pip install --no-cache-dir ${PIP_PACKAGES} \
     && rm -rf /root/.cache
 
@@ -54,8 +55,8 @@ COPY library /etc/ansible/library
 RUN git clone https://github.com/Lowess/ansible-lint-rules.git /ansible-lint-rules
 
 # Install Mitogen
-RUN wget -qO- https://github.com/dw/mitogen/archive/v${MITOGEN_VERSION}.tar.gz | tar xvz -C /
-
+RUN wget -qO- https://github.com/dw/mitogen/archive/v${MITOGEN_VERSION}.tar.gz | tar xvz -C /opt \
+    && ln -s /opt/mitogen-${MITOGEN_VERSION} /opt/mitogen
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD []

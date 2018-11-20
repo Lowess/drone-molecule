@@ -42,7 +42,7 @@ release-2.5:
 	docker push lowess/drone-molecule:$(ANSIBLE_VERSION)
 
 release-2.6:
-	$(eval ANSIBLE_VERSION := 2.6.3)
+	$(eval ANSIBLE_VERSION := 2.6.8)
 	docker build \
 		-t lowess/drone-molecule:$(ANSIBLE_VERSION) \
 		--build-arg	ANSIBLE_PIP_VERSION=$(ANSIBLE_VERSION) \
