@@ -55,7 +55,8 @@ COPY library /etc/ansible/library
 RUN git clone https://github.com/Lowess/ansible-lint-rules.git /ansible-lint-rules
 
 # Install Mitogen
-RUN wget -qO- https://github.com/dw/mitogen/archive/v${MITOGEN_VERSION}.tar.gz | tar xvz -C /opt \
+RUN mkdir -p /opt \
+    && wget -qO- https://github.com/dw/mitogen/archive/v${MITOGEN_VERSION}.tar.gz | tar xvz -C /opt \
     && ln -s /opt/mitogen-${MITOGEN_VERSION} /opt/mitogen
 
 ENTRYPOINT ["/entrypoint.sh"]
