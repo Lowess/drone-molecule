@@ -48,15 +48,16 @@ ENV ANSIBLE_FORCE_COLOR=1
 ENV SHELL /bin/bash
 
 COPY entrypoint.sh /entrypoint.sh
+
 # Add any custom modules if any
 COPY library /etc/ansible/library
 
 # Copy Extra ansible-lint rules
-RUN git clone https://github.com/Lowess/ansible-lint-rules.git /ansible-lint-rules
+RUN mkdir -p /opt \
+    && git clone https://github.com/Lowess/ansible-lint-rules.git /opt/gumgum-lint-rules
 
 # Install Mitogen
-RUN mkdir -p /opt \
-    && wget -qO- https://github.com/dw/mitogen/archive/v${MITOGEN_VERSION}.tar.gz | tar xvz -C /opt \
+RUN wget -qO- https://github.com/dw/mitogen/archive/v${MITOGEN_VERSION}.tar.gz | tar xvz -C /opt \
     && ln -s /opt/mitogen-${MITOGEN_VERSION} /opt/mitogen
 
 ENTRYPOINT ["/entrypoint.sh"]
