@@ -29,7 +29,9 @@ ENV PACKAGES="\
 ENV PIP_PACKAGES="\
     virtualenv \
     boto \
-    credstash==1.14.0 \
+    cryptography>=2.5 \
+    setuptools==44.0.0 \
+    credstash==1.15.0 \
     molecule==${MOLECULE_PIP_VERSION} \
     ansible==${ANSIBLE_PIP_VERSION} \
     docker-py \

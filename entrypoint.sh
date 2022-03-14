@@ -1,33 +1,18 @@
 #!/bin/bash
 
-drone_netrc(){
-    # Populate $HOME/.netrc file, so that Galaxy dependencies can be installed from
-    # Bitbucket / Github private repositories
-    # https://discourse.drone.io/t/querying-git-repo-after-clone/1998/8
-if [[ ! -z "${DRONE_NETRC_MACHINE}" ]]; then
-    cat <<-EOF > /root/.netrc
-    machine ${DRONE_NETRC_MACHINE}
-    login ${DRONE_NETRC_USERNAME}
-    password ${DRONE_NETRC_PASSWORD}
-EOF
-    chmod 600 /root/.netrc
-fi
-}
-
-### Plugin running on Drone CI/CD (http://drone.io/)
-case "${CI}" in
-    drone)
-        drone_netrc
-        ;;
-    *)
-        # TODO for other CI/CD platforms
-        ;;
-esac
-
 ### Molecule Plugin
 SUB_COMMAND=""
 OPTIONS=""
 SCENARIO=""
+
+NETRC_FILE="/root/.netrc"
+
+if [ -f "/root/.netrc" ]; then
+    echo "${NETRC_FILE} file exists using it!"
+else
+    echo "${NETRC_FILE} does not exists git commands might fail..."
+fi
+
 
 case "${PLUGIN_TASK}" in
     init)
