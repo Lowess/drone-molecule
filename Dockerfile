@@ -5,9 +5,9 @@ ARG ANSIBLE_PIP_VERSION
 ARG MOLECULE_PIP_VERSION
 ARG MITOGEN_VERSION
 
-ENV ANSIBLE_PIP_VERSION=${ANSIBLE_PIP_VERSION:-2.6.3}
-ENV MOLECULE_PIP_VERSION=${MOLECULE_PIP_VERSION:-2.17}
-ENV MITOGEN_VERSION=${MITOGEN_VERSION:-0.2.3}
+ENV ANSIBLE_PIP_VERSION=${ANSIBLE_CORE_PIP_VERSION:-5.10.0}
+ENV MOLECULE_PIP_VERSION=${MOLECULE_PIP_VERSION:-4.0.3}
+ENV MITOGEN_VERSION=${MITOGEN_VERSION:-0.3.3}
 
 ENV PACKAGES="\
     gcc \
@@ -17,9 +17,9 @@ ENV PACKAGES="\
     libffi-dev \
     musl-dev \
     openssl-dev \
-    py-pip \
-    python \
-    python-dev \
+    py3-pip \
+    python3 \
+    python3-dev \
     linux-headers \
     sudo \
     git \
@@ -29,13 +29,12 @@ ENV PACKAGES="\
 ENV PIP_PACKAGES="\
     virtualenv \
     boto \
-    cryptography>=2.5 \
-    setuptools==44.0.0 \
-    credstash==1.15.0 \
     molecule==${MOLECULE_PIP_VERSION} \
+    molecule[docker]==${MOLECULE_PIP_VERSION} \
+    molecule[lint]==${MOLECULE_PIP_VERSION} \
     ansible==${ANSIBLE_PIP_VERSION} \
-    docker-py \
-    pytest==3.7.2 \
+    ansible-lint==6.8.6 \
+    pytest==7.2.0 \
 "
 
 RUN \
@@ -52,14 +51,15 @@ ENV SHELL /bin/bash
 COPY entrypoint.sh /entrypoint.sh
 
 # Add any custom modules if any
-COPY library /etc/ansible/library
+# COPY library /etc/ansible/library
 
 # Copy Extra ansible-lint rules
 RUN mkdir -p /opt \
     && git clone https://github.com/Lowess/ansible-lint-rules.git /opt/gumgum-lint-rules
 
+
 # Install Mitogen
-RUN wget -qO- https://github.com/dw/mitogen/archive/v${MITOGEN_VERSION}.tar.gz | tar xvz -C /opt \
+RUN wget -qO- https://github.com/mitogen-hq/mitogen/archive/refs/tags/v${MITOGEN_VERSION}.tar.gz | tar xvz -C /opt \
     && ln -s /opt/mitogen-${MITOGEN_VERSION} /opt/mitogen
 
 ENTRYPOINT ["/entrypoint.sh"]
